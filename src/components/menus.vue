@@ -36,7 +36,7 @@ export default {
     })
   },
   watch: {
-    todoId (id) {
+    'todoId' (id) {
       this.$router.push({ name: 'todo', params: { id: id } })
       // 监听到用户的点击todoId的变化在跳转路由
     }

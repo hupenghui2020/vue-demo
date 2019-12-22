@@ -44,7 +44,8 @@
     </nav>
     <div class="content-scrollable list-items">
       <!--容器下半部分-->
-      <div v-for="item in items" :key="item"> <!-- 这里`v-for`会循环我们在 `data`函数 事先定义好的 ’items‘模拟数据，循环后拿到单个对象，在通过prop把数据传输给子组件 item -->
+      <div v-for="item in items" :key="item">
+        <!-- 这里`v-for`会循环我们在 `data`函数 事先定义好的 ’items‘模拟数据，循环后拿到单个对象，在通过prop把数据传输给子组件 item -->
         <item :item="item"></item>
       </div>
     </div>
@@ -52,15 +53,18 @@
 </template>
 <script>
 import item from './item'
+import { getTodo, addRecord } from '../api/api'
 export default {
   data () {
     return {
-      todo: { // 详情内容
+      todo: {
+        // 详情内容
         title: '星期一',
         count: 12,
         locked: false
       },
-      items: [ // 代办单项列表
+      items: [
+        // 代办单项列表
         { checked: false, text: '新的一天', isDelete: false },
         { checked: false, text: '新的一天', isDelete: false },
         { checked: false, text: '新的一天', isDelete: false }
@@ -68,14 +72,41 @@ export default {
       text: '' // 新增代办单项绑定的值
     }
   },
+  watch: {
+    '$route.params.id' () {
+      // 监听$route.params.id的变化，如果这个id即代表用户点击了其他的待办项需要重新请求数据。
+      this.init()
+    }
+  },
+  created () {
+    // created生命周期，在实例已经创建完成，页面还没渲染时调用init方法。
+    this.init()
+  },
   methods: {
     onAdd () {
-      this.items.push({
-        checked: false,
-        text: this.text,
-        isDelete: false
-      }) // 当用户点击回车时候 ，给items的值新增一个对象，this.text 即输入框绑定的值
-      this.text = '' // 初始化输入框的值。
+      // 当用户输入文字，并且回车时调用次方法。
+      const ID = this.$route.params.id
+      addRecord({ id: ID, text: this.text }).then(res => {
+        this.text = ''
+        this.init()
+        // 请求成功后初始化
+      })
+    },
+    init () {
+      // 获取到 $route下params下的id,即我们在menus.vue组件处传入的数据。
+      const ID = this.$route.params.id
+      getTodo({ id: ID }).then(res => {
+        let { id, title, count, isDelete, locked, record } = res.data.todo
+        // 请求成功，拿到res.data.todo;在将record 赋值到代办单项列表，其它数据赋值到todo对象
+        this.items = record
+        this.todo = {
+          id: id,
+          title: title,
+          count: count,
+          locked: locked,
+          isDelete: isDelete
+        }
+      })
     }
   },
   components: {
