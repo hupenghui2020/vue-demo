@@ -30,15 +30,15 @@ export default {
   created () {
     // 调用请求菜单列表数据的接口
     getTodoList({}).then(res => {
-      const TODOS = res.data.todos // 数据都会返回在res.data里面。
-      this.items = TODOS // 我的把菜单数据赋值给定义的this.items
-      this.todoId = TODOS[0].id // 把菜单数据的默认的第一个对象的id赋值给默认选中的id
+      const menuBars = res.data // 数据都会返回在res.data里面。
+      this.items = menuBars // 我的把菜单数据赋值给定义的this.items
+      this.todoId = menuBars[0].id // 把菜单数据的默认的第一个对象的id赋值给默认选中的id
     })
   },
   watch: {
     'todoId' (id) {
       this.$router.push({ name: 'todo', params: { id: id } })
-      // 监听到用户的点击todoId的变化在跳转路由
+      // 监听到用户的点击todoId的变化再跳转路由
     }
   },
   methods: {

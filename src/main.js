@@ -3,8 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Axios from 'axios' // 导入axios模块
 
 Vue.config.productionTip = false
+Axios.defaults.baseURL = 'v1/'
 
 /* eslint-disable no-new */
 new Vue({
