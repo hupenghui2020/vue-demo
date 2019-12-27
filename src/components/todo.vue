@@ -44,7 +44,7 @@
     </nav>
     <div class="content-scrollable list-items">
       <!--容器下半部分-->
-      <div v-for="item in items" :key="item">
+      <div v-for="item in items" :key="item.id">
         <!-- 这里`v-for`会循环我们在 `data`函数 事先定义好的 ’items‘模拟数据，循环后拿到单个对象，在通过prop把数据传输给子组件 item -->
         <item :item="item"></item>
       </div>
@@ -59,15 +59,9 @@ export default {
     return {
       todo: {
         // 详情内容
-        title: '星期一',
-        count: 12,
-        locked: false
       },
       items: [
         // 代办单项列表
-        { checked: false, text: '新的一天', isDelete: false },
-        { checked: false, text: '新的一天', isDelete: false },
-        { checked: false, text: '新的一天', isDelete: false }
       ],
       text: '' // 新增代办单项绑定的值
     }
@@ -96,9 +90,9 @@ export default {
       // 获取到 $route下params下的id,即我们在menus.vue组件处传入的数据。
       const ID = this.$route.params.id
       getTodo({ id: ID }).then(res => {
-        let { id, title, count, isDelete, locked, record } = res.data.todo
+        let { id, title, count, isDelete, locked } = res.data.menuBar
         // 请求成功，拿到res.data.todo;在将record 赋值到代办单项列表，其它数据赋值到todo对象
-        this.items = record
+        this.items = res.data.article
         this.todo = {
           id: id,
           title: title,

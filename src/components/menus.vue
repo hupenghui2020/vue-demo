@@ -6,7 +6,7 @@
       @click="goList(item.id)"
       class="list-todo list activeListClass"
       :class="{'active': item.id === todoId}"
-      :key="item"
+      :key="item.id"
     >
       <span class="icon-lock" v-if="item.locked"></span>
       <span class="count-list" v-if="item.count > 0">{{item.count}}</span>
@@ -31,8 +31,10 @@ export default {
     // 调用请求菜单列表数据的接口
     getTodoList({}).then(res => {
       const menuBars = res.data // 数据都会返回在res.data里面。
-      this.items = menuBars // 我的把菜单数据赋值给定义的this.items
-      this.todoId = menuBars[0].id // 把菜单数据的默认的第一个对象的id赋值给默认选中的id
+      if (menuBars !== null || menuBars !== '') {
+        this.items = menuBars // 我的把菜单数据赋值给定义的this.items
+        this.todoId = menuBars[0].id // 把菜单数据的默认的第一个对象的id赋值给默认选中的id
+      }
     })
   },
   watch: {
@@ -51,7 +53,7 @@ export default {
       // 调用新增菜单的接口，在接口调用成功在请求数据
       addTodo({}).then(data => {
         getTodoList({}).then(res => {
-          const TODOS = res.data.todos
+          const TODOS = res.data
           this.todoId = TODOS[TODOS.length - 1].id
           this.items = TODOS
         })

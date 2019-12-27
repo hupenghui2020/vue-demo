@@ -9,9 +9,7 @@ export const addTodo = params => {
 }
 // 新增一个请求查询代办单项列表的数据的接口函数
 export const getTodo = params => {
-  return axios.get(`/todo/listId`, {
-    params: params
-  })
+  return axios.get(`/todo/` + params.id)
 }
 // 新增一个请求新增代办单的接口函数
 export const addRecord = params => {
