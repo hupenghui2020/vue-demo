@@ -13,5 +13,5 @@ export const getTodo = params => {
 }
 // 新增一个请求新增代办单的接口函数
 export const addRecord = params => {
-  return axios.post(`/todo/addRecord`, params).then(res => res.data)
+  return axios.post(`/todo/record/add`, params).then(res => res.data)
 }

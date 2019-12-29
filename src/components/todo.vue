@@ -80,7 +80,7 @@ export default {
     onAdd () {
       // 当用户输入文字，并且回车时调用次方法。
       const ID = this.$route.params.id
-      addRecord({ id: ID, text: this.text }).then(res => {
+      addRecord({ menuId: ID, title: this.text }).then(res => {
         this.text = ''
         this.init()
         // 请求成功后初始化
@@ -92,7 +92,7 @@ export default {
       getTodo({ id: ID }).then(res => {
         let { id, title, count, isDelete, locked } = res.data.menuBar
         // 请求成功，拿到res.data.todo;在将record 赋值到代办单项列表，其它数据赋值到todo对象
-        this.items = res.data.article
+        this.items = res.data.articleList
         this.todo = {
           id: id,
           title: title,

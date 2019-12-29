@@ -7,7 +7,7 @@
       <!--item.checked-->
       <span class="checkbox-custom"></span>
     </label>
-    <input type="text" v-model="item.text" placeholder="写点什么。。。" />
+    <input type="text" v-model="item.title" placeholder="写点什么。。。" />
     <!--绑定item.text-->
     <a class="delete-item">
       <!--删除图标-->
@@ -22,10 +22,7 @@ export default {
     item: {
       type: Object,
       default: () => {
-        return {
-          checked: false,
-          text: '你好,世界'
-        }
+        return ''
       }
     }
   }
